@@ -1,18 +1,23 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+
+	"github.com/ragadeeshu/octo-canyon-freshness-league/datahandling"
 )
 
 func main() {
-	league, _ := LoadLeague()
-	// fmt.Println(league)
-	err := LoadSplatnetData(&league)
+	league, err := datahandling.LoadLeague()
 	if err != nil {
 		fmt.Println(err)
 	}
-	output, _ := json.MarshalIndent(league, "", "\t")
-	fmt.Println(string(output))
+	err = datahandling.LoadSplatnetData(&league)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = datahandling.SaveLeague(league)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 }

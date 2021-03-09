@@ -1,9 +1,11 @@
-package main
+package datahandling
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os/exec"
 	"time"
 )
 
@@ -20,11 +22,12 @@ type League struct {
 }
 
 type Contestant struct {
-	Name         string `json:"name"`
-	Cookie       string `json:"cookie"`
-	SplatnetName string
-	PictureURL   string
-	SplatnetData SplatnetData
+	Name         string       `json:"name"`
+	Cookie       string       `json:"cookie"`
+	SessionToken string       `json:"session_token"`
+	SplatnetName string       `json:"splatnet_name"`
+	PictureURL   string       `json:"picture_url"`
+	SplatnetData SplatnetData `json:"-"`
 }
 
 //Stuff for getting picture and name
@@ -85,17 +88,25 @@ type SplatnetHonor struct {
 	Name string `json:"name"`
 }
 
-func LoadLeague() (League, error) {
-	var league League
+func LoadLeague() (league League, err error) {
 	byteValue, err := ioutil.ReadFile("contestants.json")
 	if err != nil {
-		return league, err
+		return
 	}
 	err = json.Unmarshal(byteValue, &league)
-	return league, err
+	return
 }
 
-func LoadSplatnetData(league *League) (err error) {
+func SaveLeague(league League) (err error) {
+	output, err := json.MarshalIndent(league, "", "\t")
+	if err != nil {
+		return
+	}
+	err = ioutil.WriteFile("contestants.json", output, 0644)
+	return
+}
+
+func LoadSplatnetData(league *League) error {
 	client := http.Client{
 		Timeout: 2 * time.Second,
 	}
@@ -142,9 +153,24 @@ func LoadSplatnetData(league *League) (err error) {
 		if err != nil {
 			return err
 		}
+		if len(profiles.SplatnetProfiles) == 0 {
+			fmt.Printf("Invalid cookie for %s, attempting to generate new.\n", league.Contestants[index].Name)
+			newCookie, err := generateCookie(league.Contestants[index].SessionToken)
+			if err != nil {
+				return err
+			}
+			league.Contestants[index].Cookie = newCookie
+			return LoadSplatnetData(league)
+		}
 		league.Contestants[index].SplatnetName = profiles.SplatnetProfiles[0].Name
 		league.Contestants[index].PictureURL = profiles.SplatnetProfiles[0].PictureURL
 
 	}
-	return err
+	return nil
+}
+
+func generateCookie(sessionToken string) (string, error) {
+	cmd := exec.Command("python3.9", "datahandling/iksm.py", sessionToken)
+	out, err := cmd.Output()
+	return string(out), err
 }

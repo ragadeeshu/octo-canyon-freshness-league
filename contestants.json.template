@@ -1,4 +1,5 @@
 {
     "name":"tomte",
-    "cookie":"iksm_session"
+    "cookie":"cookie"
+    "session_token":"session_token"
 }
