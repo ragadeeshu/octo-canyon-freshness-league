@@ -32,11 +32,11 @@ type Contestant struct {
 
 //Stuff for getting picture and name
 
-type Results struct {
-	Results [50]Result `json:"results,omitempty"`
+type BattleResults struct {
+	BattleResults [50]BattleResult `json:"results,omitempty"`
 }
 
-type Result struct {
+type BattleResult struct {
 	PlayerResult PlayerBattleResult `json:"player_result,omitempty"`
 }
 
@@ -69,7 +69,6 @@ type SplatnetStageClearData struct {
 }
 
 type SplatnetWeaponClearData struct {
-	// WeaponCategory string `json:"weapon_category"`
 	ClearTime uint `json:"clear_time"`
 }
 
@@ -88,7 +87,23 @@ type SplatnetHonor struct {
 	Name string `json:"name"`
 }
 
-func LoadLeague() (league League, err error) {
+func GetLeague() (League, error) {
+	league, err := loadLeague()
+	if err != nil {
+		return league, err
+	}
+	err = loadSplatnetData(&league)
+	if err != nil {
+		return league, err
+	}
+	err = saveLeague(league)
+	if err != nil {
+		return league, err
+	}
+	return league, nil
+}
+
+func loadLeague() (league League, err error) {
 	byteValue, err := ioutil.ReadFile("contestants.json")
 	if err != nil {
 		return
@@ -97,7 +112,7 @@ func LoadLeague() (league League, err error) {
 	return
 }
 
-func SaveLeague(league League) (err error) {
+func saveLeague(league League) (err error) {
 	output, err := json.MarshalIndent(league, "", "\t")
 	if err != nil {
 		return
@@ -106,7 +121,7 @@ func SaveLeague(league League) (err error) {
 	return
 }
 
-func LoadSplatnetData(league *League) error {
+func loadSplatnetData(league *League) error {
 	client := http.Client{
 		Timeout: 2 * time.Second,
 	}
@@ -132,7 +147,7 @@ func LoadSplatnetData(league *League) error {
 		if err != nil {
 			return err
 		}
-		var results Results
+		var results BattleResults
 		err = json.NewDecoder(resp.Body).Decode(&results)
 		if err != nil {
 			return err
@@ -142,7 +157,7 @@ func LoadSplatnetData(league *League) error {
 		req.Header.Set("User-Agent", useragent)
 		req.Header.Set("Cookie", "iksm_session="+league.Contestants[index].Cookie)
 		q := req.URL.Query()
-		q.Set("id", results.Results[0].PlayerResult.Player.PrincipalID)
+		q.Set("id", results.BattleResults[0].PlayerResult.Player.PrincipalID)
 		req.URL.RawQuery = q.Encode()
 		resp, err = client.Do(req)
 		if err != nil {
@@ -160,7 +175,7 @@ func LoadSplatnetData(league *League) error {
 				return err
 			}
 			league.Contestants[index].Cookie = newCookie
-			return LoadSplatnetData(league)
+			return loadSplatnetData(league)
 		}
 		league.Contestants[index].SplatnetName = profiles.SplatnetProfiles[0].Name
 		league.Contestants[index].PictureURL = profiles.SplatnetProfiles[0].PictureURL

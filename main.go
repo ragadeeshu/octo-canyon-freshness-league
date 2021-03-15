@@ -7,17 +7,14 @@ import (
 )
 
 func main() {
-	league, err := datahandling.LoadLeague()
+
+	// results, err := datahandling.GetOrFetchData()
+	_, err := datahandling.GetOrFetchData()
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = datahandling.LoadSplatnetData(&league)
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = datahandling.SaveLeague(league)
-	if err != nil {
-		fmt.Println(err)
-	}
+
+	// output, _ := json.MarshalIndent(results, "", "\t")
+	// fmt.Println(string(output))
 
 }
