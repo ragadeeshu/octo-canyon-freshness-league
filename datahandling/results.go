@@ -12,6 +12,40 @@ var (
 	stages         = 32
 	NO_TIME        = uint(9999)
 	BEST_WEAPON    = 9
+	stage_ids      = map[string]int{
+		"1":   0,
+		"2":   1,
+		"3":   2,
+		"101": 3,
+		"4":   4,
+		"5":   5,
+		"6":   6,
+		"7":   7,
+		"8":   8,
+		"9":   9,
+		"102": 10,
+		"10":  11,
+		"11":  12,
+		"12":  13,
+		"13":  14,
+		"14":  15,
+		"15":  16,
+		"103": 17,
+		"16":  18,
+		"17":  19,
+		"18":  20,
+		"19":  21,
+		"20":  22,
+		"21":  23,
+		"104": 24,
+		"22":  25,
+		"23":  26,
+		"24":  27,
+		"25":  28,
+		"26":  29,
+		"27":  30,
+		"105": 31,
+	}
 )
 
 type Results struct {
@@ -74,8 +108,21 @@ func collectPlayerData(contestant Contestant) (playerResult PlayerResult) {
 	playerResult.PlayerHonor = contestant.SplatnetData.SplatnetCampaignSummary.SplatnetHonor.Name
 	playerResult.PlayerName = contestant.SplatnetName
 	playerResult.PlayerClearRate = contestant.SplatnetData.SplatnetCampaignSummary.ClearRate
+	playerResult.StageScores = make([]ScoreSummary, stages)
+
+	for stageIndex := 0; stageIndex < stages; stageIndex++ {
+		var emptyScore ScoreSummary
+		for weaponID := 0; weaponID <= BEST_WEAPON; weaponID++ {
+			noWeaponData := WeaponScore{
+				PlayerTime: NO_TIME,
+				Weapon:     weaponID,
+			}
+			emptyScore.ScoreByWeapon = append(emptyScore.ScoreByWeapon, noWeaponData)
+		}
+		playerResult.StageScores[stageIndex] = emptyScore
+	}
 	for _, stage := range contestant.SplatnetData.SplatnetStageClearDatas {
-		playerResult.StageScores = append(playerResult.StageScores, collectWeaponTimes(stage))
+		playerResult.StageScores[stage_ids[stage.SplatnetStage.ID]] = collectWeaponTimes(stage)
 	}
 	return
 }
