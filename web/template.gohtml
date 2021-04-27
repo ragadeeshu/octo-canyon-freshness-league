@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="static/css.css">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>Freshness League: {{.LeagueName}}</title>
+    <link rel="icon" type="image/png" href="static/images/bundled/133988d7223deb6634fc30bf8cac034c.png">
+</head>
+
+<body>
+
+    <div class="page hero-records">
+        <div class="wrapper">
+            <div class="page challenge">
+                <section class="summary title5">
+                    <div class="cover"><img class="cover-image"
+                            src="static/images/bundled/d0f03000faf1896e4592ff8f4e59cd23.png" alt="">
+                    </div>
+                    <h1><span>Octo Canyon Freshness League</span></h1>
+                    <h2><strong>league: </strong><span>{{.LeagueName}}</span></h2>
+                </section>
+                <div class="blob4"></div>
+                <div class="profiles">
+                    {{ $playerResults := .PlayerResults }}
+                    {{range $colorindex, $result := .PlayerResults}}
+                    <section class="profile color{{indexfunc $colorindex}}">
+                        <div class="stats bg1 bg1-before">
+                            <div class="stats-main">
+                                <ul>
+                                    <li class="icon"><img
+                                            src="{{$result.PlayerImage}}"
+                                            alt="{{$result.PlayerName}}" class="icon-image"></li>
+                                    <li class="name">{{$result.PlayerName}}</li>
+                                    {{if eq (index $result.TotalScores.ScoreByWeapon 9).PlayerRanking 1}}
+                                    <li class="rank-badge"><span class="udemae gold"></span></li>
+                                    {{end}}
+                                    {{if eq (index $result.TotalScores.ScoreByWeapon 9).PlayerRanking 2}}
+                                    <li class="rank-badge"><span class="udemae silver"></span></li>
+                                    {{end}}
+                                    {{if eq (index $result.TotalScores.ScoreByWeapon 9).PlayerRanking 3}}
+                                    <li class="rank-badge"><span class="udemae bronze"></span></li>
+                                    {{end}}
+                                </ul>
+                            </div>
+                            <div class="stats-detail">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="level">Rank</th>
+                                            <th class="rank">Info</th>
+                                            <th class="challenge">Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="level {{if eq (index $result.TotalScores.ScoreByWeapon 9).PlayerRanking 1}}win{{end}}" rowspan="4">
+                                                <strong>{{(index $result.TotalScores.ScoreByWeapon 9).PlayerRanking}}</strong>
+                                            </td>
+                                            <td class="rank"><strong>Clear rate</strong><span
+                                                    class="udemae">{{$result.PlayerClearRate}}</span></td>
+                                            <td class="challenge" rowspan="4"><span class="point {{if eq (index $result.TotalScores.ScoreByWeapon 9).PlayerRanking 1}}win{{end}}">{{(index $result.TotalScores.ScoreByWeapon 9).PlayerScore}}</span>
+                                                <div class="class bg1-before">{{$result.PlayerTitle}}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rank"><strong>Honor</strong><span class="udemae">{{$result.PlayerHonor}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rank"><strong>Best weapon</strong><span class="udemae">{{$result.BestWeapon}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rank"><strong>Worst weapon</strong><span class="udemae">{{$result.WorstWeapon}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="favorite-stage">
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 0).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/4a960b39af09f312926d11ccabd9dd1504066872.png"
+                                        alt="0">
+                                </picture>
+                                {{end}}
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 1).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/340fa4755c9bae65026cc98c86b92e71edabaf2a.png"
+                                        alt="1">
+                                </picture>
+                                {{end}}
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 2).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/b51bc11dd7973e91316435c67ff88f264f8dd4d4.png"
+                                        alt="2">
+                                </picture>
+                                {{end}}
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 3).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/bd8f778b51dd3234845e9f51404a75b7a40fc9a9.png"
+                                        alt="3">
+                                </picture>
+                                {{end}}
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 4).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/1b22f2c5776658ee092af81cc9d6bd56b3d39a4d.png"
+                                        alt="4">
+                                </picture>
+                                {{end}}
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 5).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/ffc1d85ab488ebf9fcfa07d4adf0673bba36c698.png"
+                                        alt="5">
+                                </picture>
+                                {{end}}
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 6).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/d1a26c62b39763fa7636486250185710a5f59b92.png"
+                                        alt="6">
+                                </picture>
+                                {{end}}
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 7).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/cb6d801f791e35cd6bab85d8f855fc707693a97e.png"
+                                        alt="7">
+                                </picture>
+                                {{end}}
+                                {{if eq (index $result.TotalScores.ScoreByWeapon 8).PlayerRanking 1}}
+                                <picture class="winner-badge">
+                                    <img src="static/images/weapon_shadow/99ee0b0ea354be02580ac34e13fba18a6f4c2528.png"
+                                        alt="8">
+                                </picture>
+                                {{end}}
+                            </div>
+                        </div>
+                    </section>
+                    {{end}}
+                </div>
+                <div class="blob5"></div>
+
+                <div class="blob2"></div>
+                <div class="blob3"></div>
+            </div>
+            <div class="blob1"></div>
+
+            <div class="category-selector">
+                <div class="category-selector-container">
+                    <div class="category-all"><button class="selecting">View best times</button>
+                    </div>
+                    <div class="category-weapon">
+                        <h2>View by weapon</h2><button class="complete selecting"><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/4a960b39af09f312926d11ccabd9dd1504066872.png"
+                                alt="0"></button><button class="complete "><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/340fa4755c9bae65026cc98c86b92e71edabaf2a.png"
+                                alt="1"></button><button class="complete "><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/b51bc11dd7973e91316435c67ff88f264f8dd4d4.png"
+                                alt="2"></button><button class="complete "><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/bd8f778b51dd3234845e9f51404a75b7a40fc9a9.png"
+                                alt="3"></button><button class="complete "><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/1b22f2c5776658ee092af81cc9d6bd56b3d39a4d.png"
+                                alt="4"></button><button class="complete "><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/ffc1d85ab488ebf9fcfa07d4adf0673bba36c698.png"
+                                alt="5"></button><button class="complete "><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/d1a26c62b39763fa7636486250185710a5f59b92.png"
+                                alt="6"></button><button class="complete "><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/cb6d801f791e35cd6bab85d8f855fc707693a97e.png"
+                                alt="7"></button><button class="complete "><img class="hero-weapon-image"
+                                src="static/images/weapon_shadow/99ee0b0ea354be02580ac34e13fba18a6f4c2528.png"
+                                alt="8"></button>
+                    </div>
+                </div>
+            </div>
+            {{range $sectornum, $sectorStages := .StagesBySector}}
+            <section class="area">
+                <table>
+                    <tr class="header"><th class="sector">Sector {{indexfunc $sectornum}}</th>
+                        {{range $colorindex, $result := $playerResults}}
+                        <th class="player">{{$result.PlayerName}}</th>
+                        {{end}}
+                    </tr>
+                    {{range $stagenum, $stageindex := $sectorStages}}
+                    <tr>
+                        <td>
+                            <span class="stage {{if eq (indexfunc $stagenum) (len $sectorStages)}}boss{{else}}normal{{end}}">
+                                0{{indexfunc $stagenum}}
+                            </span>
+                        </td>
+                        {{range $colorindex, $result := $playerResults}}
+                        <td>
+                            <span class="time-record {{if eq (index (index $result.StageScores $stageindex).ScoreByWeapon 9).PlayerRanking 1}}win{{end}}">
+                                {{$time := (index (index $result.StageScores $stageindex).ScoreByWeapon 9).PlayerTime}}
+                                {{if eq $time 9999}}
+                                    {{"&nbsp;&nbsp;&nbsp;∞&nbsp;&nbsp;&nbsp;"}}
+                                {{else}}
+                                    {{timedisplay $time}}
+                                {{end}}
+                            </span>
+                            {{$weapon := (index (index $result.StageScores $stageindex).ScoreByWeapon 9).Weapon}}
+                            <span class="weapon"></span>
+                            {{if eq $weapon 0}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/4a960b39af09f312926d11ccabd9dd1504066872.png"
+                                    alt="0">
+                            {{else if eq $weapon 1}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/340fa4755c9bae65026cc98c86b92e71edabaf2a.png"
+                                    alt="1">
+                            {{else if eq $weapon 2}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/b51bc11dd7973e91316435c67ff88f264f8dd4d4.png"
+                                    alt="2">
+                            {{else if eq $weapon 3}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/bd8f778b51dd3234845e9f51404a75b7a40fc9a9.png"
+                                    alt="3">
+                            {{else if eq $weapon 4}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/1b22f2c5776658ee092af81cc9d6bd56b3d39a4d.png"
+                                    alt="4">
+                            {{else if eq $weapon 5}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/ffc1d85ab488ebf9fcfa07d4adf0673bba36c698.png"
+                                    alt="5">
+                            {{else if eq $weapon 6}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/d1a26c62b39763fa7636486250185710a5f59b92.png"
+                                    alt="6">
+                            {{else if eq $weapon 7}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/cb6d801f791e35cd6bab85d8f855fc707693a97e.png"
+                                    alt="7">
+                            {{else if eq $weapon 8}}
+                            <img class="hero-weapon-image" src="static/images/weapon_shadow/99ee0b0ea354be02580ac34e13fba18a6f4c2528.png"
+                                    alt="8">
+                            {{else}}
+                            <strong>?</strong>
+                            {{end}}
+                            </span>
+                        </td>
+                        {{end}}
+                    </tr>
+                    {{end}}
+                    <tr class="header"
+                    ><th class="sector">Score</th>
+                    {{range $colorindex, $result := $playerResults}}
+                        <th class="player {{if eq (index (index $result.SectorScores $sectornum).ScoreByWeapon 9).PlayerRanking 1}}win{{end}}">{{(index (index $result.SectorScores $sectornum).ScoreByWeapon 9).PlayerScore}}p</th>
+                        {{end}}
+                    </tr>
+                </table>
+            </section>
+            {{end}}
+            <div class="challenge-start-container">
+                <div class="challenge-start">
+                    <h3><span>This project is not affiliated with Nintendo. All product names, logos, images, and brands
+                            are property of their respective owners.</span></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

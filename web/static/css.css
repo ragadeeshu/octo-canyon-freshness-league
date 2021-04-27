@@ -1,0 +1,901 @@
+@font-face {
+  font-family: Splatoon1;
+  src: url(fonts/bundled/ab3ec448c2439eaed33fcf7f31b70b33.woff2) format("woff2"),
+    url(fonts/bundled/8ef269f47a5843f5b280f318f31762e4.woff) format("woff");
+}
+@font-face {
+  font-family: Splatoon1;
+  src: url(fonts/bundled/0e12b13c359d4803021dc4e17cecc311.woff2) format("woff2"),
+    url(fonts/bundled/f25982b8ab52a929938cd63f15656ecf.woff) format("woff");
+}
+@font-face {
+  font-family: Splatoon2;
+  src: url(fonts/bundled/da3c7139972a0e4e47dd8de4cacea984.woff2) format("woff2"),
+    url(fonts/bundled/28c8555a5e4f84408ad27225abc5b731.woff) format("woff");
+}
+@font-face {
+  font-family: Splatoon2;
+  src: url(fonts/bundled/eb82d017016045bf998cade4dac1ec22.woff2) format("woff2"),
+    url(fonts/bundled/b4fab2f6ac35a758f6aeb5b7054ab121.woff) format("woff");
+}
+.page {
+  min-height: calc(100% - 55px);
+  box-sizing: border-box;
+}
+.profiles {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+}
+
+.winner-badge {
+  position: relative;
+}
+.winner-badge img {
+  width: auto;
+  height: 56px;
+  margin: 5px;
+}
+.winner-badge::after {
+  position: absolute;
+  content: "\2605";
+  color: #cdf523;
+  font-size: 65px;
+  margin: 0;
+  top: -21px;
+  right: 4px;
+  text-shadow: 3px 3px 0 #000;
+  z-index: -1;
+}
+body,
+h1,
+h2,
+h3,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+h1,
+h2,
+h3,
+strong,
+th {
+  font-weight: 300;
+}
+img {
+  border: none;
+}
+body,
+html {
+  height: 100%;
+}
+body {
+  background: #000;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.5;
+  font-family: Helvetica, Arial, Hiragino Sans,
+    \\30d2\30e9\30ae\30ce\89d2\30b4\30b7\30c3\30af, Hiragino Kaku Gothic ProN,
+    \\30d2\30e9\30ae\30ce\89d2\30b4 ProN W3, Meiryo, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+button {
+  cursor: pointer;
+}
+.page.challenge {
+  background: #999 url(images/bundled/fc2fe88fcaa2d9817a7012044948bfaf.png) 0 0;
+  background-size: 189px 189px;
+  padding-bottom: 80px;
+  -webkit-mask-image: url(images/bundled/3f9f3ab51ca4925a354ad043530fe97e.png);
+  mask-image: url(images/bundled/3f9f3ab51ca4925a354ad043530fe97e.png);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center bottom;
+  mask-position: center bottom;
+}
+.challenge-start-container {
+  position: relative;
+  height: 344px;
+  z-index: 1;
+}
+.challenge-start-container:before {
+  position: absolute;
+  background: url(images/bundled/3ff65812f7fc0aff176df4c78172691c.png) top
+    no-repeat;
+  background-size: 100% 100%;
+  content: "";
+  width: 100%;
+  height: 20px;
+  left: 0;
+  z-index: 0;
+  bottom: 90px;
+}
+
+.challenge-start {
+  text-align: right;
+  width: 15%;
+  margin: -150px 0;
+}
+.challenge-start:before {
+  position: absolute;
+  content: "";
+  width: 300px;
+  height: 180px;
+  background: url(images/bundled/ed3ce989cf7dfbed48333d0e3247288f.svg) top
+    no-repeat;
+  background-size: cover;
+  margin: 100px 0 0 -60px;
+}
+.challenge-start:after {
+  position: absolute;
+  content: "";
+  height: 90px;
+  width: 100%;
+  background: #000;
+  left: 0;
+  bottom: 0;
+}
+.challenge-start img {
+  position: relative;
+  width: auto;
+  height: 240px;
+  z-index: 1;
+}
+.challenge-start h3 {
+  position: absolute;
+  font-family: Splatoon2, sans-serif;
+  font-size: 15px;
+  color: #cdf523;
+  width: 100%;
+  line-height: 1.1;
+  z-index: 1;
+  right: 0;
+  margin-top: 270px;
+  box-sizing: border-box;
+  text-align: center;
+  text-shadow: 1px 1px 0 #000;
+}
+.win {
+  color: #cdf523 !important;
+}
+.blob5 {
+  position: relative;
+  display: block;
+  content: "";
+  z-index: -1;
+  width: 325px;
+  height: 325px;
+  background: #39e464;
+  -webkit-mask-image: url(images/bundled/1615075d12d2e246794d4ca76720341b.svg);
+  mask-image: url(images/bundled/1615075d12d2e246794d4ca76720341b.svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  top: 200px;
+  left: calc(70% - 230px);
+  margin-top: -362px;
+}
+
+.hero-records {
+  background: #888 url(images/bundled/3be424b57f616fc54f4b33e32ee4d964.png) top;
+  background-size: 80px 80px;
+}
+.hero-records .wrapper {
+  background: url(images/bundled/e3ebf61a761201149af9c8d1b36837fe.png) 0 0;
+  background-size: 200px 189.5px;
+}
+.hero-records .summary {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.hero-records .summary .cover {
+  background: #cdf523 url(images/bundled/5a82b7d2f5efdf35db12345177baa369.png);
+  background-size: 151.2px 151.2px;
+  -webkit-mask-image: url(images/bundled/3f9f3ab51ca4925a354ad043530fe97e.png);
+  mask-image: url(images/bundled/3f9f3ab51ca4925a354ad043530fe97e.png);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center bottom;
+  mask-position: center bottom;
+}
+.hero-records .summary .cover-image {
+  width: auto;
+  width: 320px;
+  height: 290px;
+  margin: 10px 0 0;
+}
+.hero-records .summary h1 {
+  font-family: Splatoon1, sans-serif;
+  color: #cdf523;
+  font-size: 24px;
+  line-height: 30px;
+  padding: 8px 0;
+  text-align: center;
+  background: url(images/bundled/26c8c0b675f643f384991434574baf71.png);
+  background-size: 80px 80px;
+  -webkit-mask-image: url(images/bundled/e0ef914978d3318fa3ec2afbfa64c794.png);
+  mask-image: url(images/bundled/e0ef914978d3318fa3ec2afbfa64c794.png);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center right;
+  mask-position: center right;
+  padding-right: 30px;
+  -webkit-transform: rotate(4deg);
+  transform: rotate(4deg);
+  margin: -30px 10px 0 -5px;
+}
+@media screen and (min-width: 380px) {
+  .hero-records .summary h1 {
+    -webkit-transform: rotate(2.5deg);
+    transform: rotate(2.5deg);
+    margin-top: -20px;
+  }
+}
+.hero-records .summary h1 span {
+  display: inline-block;
+  padding: 0 35px 0 12px;
+}
+@media screen and (min-width: 480px) {
+  .hero-records .summary h1 span {
+    padding-left: 82px;
+  }
+}
+.hero-records .summary h2 {
+  position: absolute;
+  background: #19d719 url(images/bundled/3be424b57f616fc54f4b33e32ee4d964.png);
+  padding: 0 12px;
+  margin: 4px 0 0;
+  right: 5px;
+  font-family: Splatoon1, sans-serif;
+  line-height: 28px;
+  text-shadow: 1px 1px 0 #000;
+  -webkit-transform: rotate(-4deg);
+  transform: rotate(-4deg);
+  -webkit-mask-image: url(images/bundled/b4fe36d4b5e6aab4b97af3f47de80bda.svg);
+  mask-image: url(images/bundled/b4fe36d4b5e6aab4b97af3f47de80bda.svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center left;
+  mask-position: center left;
+  -webkit-filter: drop-shadow(1px 1px 0 #000);
+  filter: drop-shadow(1px 1px 0 #000);
+}
+.hero-records .summary h2 strong {
+  font-family: Splatoon2, sans-serif;
+  font-size: 13px;
+  color: #fff;
+}
+.hero-records .summary h2 span {
+  font-size: 18px;
+  color: #cdf523;
+}
+.hero-records .category-selector {
+  position: relative;
+  z-index: 1;
+}
+.hero-records .category-selector:before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: url(images/bundled/f2a8177519e8cb9ef1f4a92598148a76.png) top
+    no-repeat;
+  background-size: 468px 357.5px;
+  z-index: -1;
+}
+.hero-records .category-selector button {
+  position: relative;
+  border: none;
+  background: #a51ee1 url(images/bundled/fc2fe88fcaa2d9817a7012044948bfaf.png);
+  background-size: 126px 126px;
+  z-index: 1;
+}
+.hero-records .category-selector button.selecting {
+  background-color: #f02d7d;
+}
+.hero-records .category-selector button.selecting:before {
+  position: absolute;
+  content: "";
+  width: 21.5px;
+  height: 26px;
+  background: url(images/bundled/1033135ff8bf68955987639da9853156.png) 100% 100%
+    no-repeat;
+  background-size: contain;
+  z-index: -1;
+}
+.hero-records .category-selector .category-selector-container {
+  /* max-width: 380px; */
+  margin: 0 auto;
+  text-align: center;
+}
+.hero-records .category-selector .category-all {
+  padding: 60px 30px 24px;
+  margin-top: -28px;
+}
+.hero-records .category-selector .category-all button {
+  line-height: 48px;
+  border-radius: 24px;
+  font-family: Splatoon2, sans-serif;
+  color: #fff;
+  font-size: 20px;
+  text-shadow: 1px 1px 0 #000;
+  padding: 0 10px;
+  margin: 0;
+}
+.hero-records .category-selector .category-all button.selecting:before {
+  right: 10px;
+  bottom: -10px;
+}
+.hero-records .category-selector .category-weapon {
+  zoom: 1;
+  padding: 0 26px 30px;
+}
+.hero-records .category-selector .category-weapon:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+}
+.hero-records .category-selector .category-weapon h2 {
+  font-family: Splatoon2, sans-serif;
+  color: #fff;
+  font-size: 16px;
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 4px;
+  padding-left: 10px;
+}
+.hero-records .category-selector .category-weapon button {
+  height: 56px;
+  border-radius: 28px;
+  padding: 0;
+  margin: 4px;
+}
+.hero-records .category-selector .category-weapon button:disabled {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+.hero-records .category-selector .category-weapon button:disabled:before {
+  position: absolute;
+  content: "?";
+  top: 0;
+  left: 0;
+  width: 56px;
+  line-height: 56px;
+  font-family: Splatoon1, sans-serif;
+  color: #fff;
+  font-size: 35px;
+  text-align: center;
+  opacity: 0.5;
+}
+.hero-records .category-selector .category-weapon button:disabled img {
+  visibility: hidden;
+}
+.hero-records .category-selector .category-weapon button.selecting:before {
+  right: 6px;
+  bottom: -6px;
+}
+.hero-records .category-selector .category-weapon img {
+  width: auto;
+  height: 56px;
+}
+.hero-records .area {
+  margin: 0 auto;
+}
+.hero-records .area:not(:last-child) {
+  margin-bottom: 8px;
+}
+.hero-records .area h1 {
+  font-family: Splatoon1, sans-serif;
+  color: #cdf523;
+  background: #191919;
+  line-height: 42px;
+  padding: 0 16px;
+}
+@media screen and (min-width: 380px) {
+  .hero-records .area h1 {
+    border-radius: 20px 20px 0 0;
+  }
+}
+.hero-records .area tr.header {
+  font-family: Splatoon1, sans-serif;
+  background: #191919;
+  line-height: 42px;
+}
+.hero-records .area tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.hero-records .area tr:last-child {
+  border-bottom: none;
+}
+.hero-records .area th.sector {
+  font-family: Splatoon1, sans-serif;
+  color: #cdf523;
+  text-align: left;
+  line-height: 42px;
+  padding: 0 0 3px 16px;
+  font-size: 1.5em;
+}
+.hero-records .area th.player {
+  font-family: Splatoon2, sans-serif;
+  color: #ffffff;
+  line-height: 42px;
+  padding: 0 16px;
+  font-size: 1.5em;
+
+}
+.hero-records .area table {
+  background: #f02d7d url(images/bundled/c5190531ea50f615be96fab6184e6d55.png)
+    50%;
+  background-size: 160px 80px;
+  border-spacing: 0px;
+  overflow: hidden;
+  margin: 0 auto 16px;
+  border-collapse: collapse;
+}
+.hero-records .area td {
+  width: 140px;
+}
+.hero-records .area td strong {
+  font-family: Splatoon1, sans-serif;
+  font-size: 32px;
+  vertical-align: middle;
+  color: #ffffff;
+  padding-left: 10px;
+}
+@media screen and (min-width: 380px) {
+  .hero-records .area table {
+    border-radius: 20px;
+  }
+}
+.hero-records .area img {
+  width: auto;
+  height: 48px;
+  vertical-align: middle;
+}
+.hero-records .area .stage {
+  padding-left: 16px;
+  width: 64px;
+  opacity: 0.6;
+}
+.hero-records .area .stage.normal {
+  font-family: Splatoon1, sans-serif;
+  font-size: 22px;
+  color: #000;
+}
+.hero-records .area .stage.boss {
+  display: inline-block;
+  background: url(images/bundled/d84c1087362ec3939eb5bb65ae946c79.png) 0
+    no-repeat;
+  background-size: 30px;
+  width: 30px;
+  margin-left: 16px;
+  height: 30px;
+  padding-top: 30px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.hero-records .area .time-record {
+  font-family: Splatoon2, sans-serif;
+  color: #fff;
+  font-size: 22px;
+  background: rgba(0, 0, 0, 0.65);
+  line-height: 32px;
+  border-radius: 16px;
+  padding: 0 6px 0 10px;
+  vertical-align: middle;
+}
+.profile {
+  position: relative;
+  font-family: Splatoon2, sans-serif;
+  color: #fff;
+  padding: 10px 30px;
+  overflow: hidden;
+}
+@media screen and (max-width: 320px) {
+  .profile {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+.blob2 {
+  position: absolute;
+  content: "";
+  width: 250px;
+  height: 200px;
+  background: #a51ee1;
+  -webkit-mask-image: url(images/bundled/927df37f86456233ec6d250200d78d2e.svg);
+  mask-image: url(images/bundled/927df37f86456233ec6d250200d78d2e.svg);
+  -webkit-mask-size: 200%;
+  mask-size: 200%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  z-index: 0;
+  bottom: 500px;
+  margin-left: 30%;
+}
+.profile.color1 .bg1,
+.profile.color1 .bg1-before:before {
+  background-color: #f02d7d;
+  -webkit-transform: rotate(-3.1deg);
+  transform: rotate(-3.1deg);
+  will-change: transform;
+}
+.profile.color2 .bg1,
+.profile.color2 .bg1-before:before {
+  background-color: #19d719;
+  -webkit-transform: rotate(4.2deg);
+  transform: rotate(4.2deg);
+  will-change: transform;
+}
+.profile.color3 .bg1,
+.profile.color3 .bg1-before:before {
+  background-color: #cdf523;
+  -webkit-transform: rotate(-1.4deg);
+  transform: rotate(-1.4deg);
+  will-change: transform;
+}
+.profile.color4 .bg1,
+.profile.color4 .bg1-before:before {
+  background-color: #a51ee1;
+  -webkit-transform: rotate(-3.5deg);
+  transform: rotate(-3.5deg);
+  will-change: transform;
+}
+.profile.color5 .bg1,
+.profile.color5 .bg1-before:before {
+  background-color: #460fc8;
+  -webkit-transform: rotate(2.4deg);
+  transform: rotate(2.4deg);
+  will-change: transform;
+}
+.profile.color6 .bg1,
+.profile.color6 .bg1-before:before {
+  background-color: #ffcd00;
+  -webkit-transform: rotate(-4.8deg);
+  transform: rotate(-4.8deg);
+  will-change: transform;
+}
+.profile .stats {
+  position: relative;
+  z-index: 1;
+}
+.profile .stats {
+  max-width: 380px;
+  border-radius: 32px;
+}
+.profile .stats,
+.profile .stats:before {
+  background: url(images/bundled/3be424b57f616fc54f4b33e32ee4d964.png) top;
+  background-size: 80px 80px;
+}
+.profile .stats {
+  margin: 40px auto 20px;
+  text-shadow: 1px 1px 0 #000;
+  background-position: left top -28.14285714px;
+}
+.profile .stats:before {
+  width: 100%;
+  height: 29.14285714px;
+  top: -28.14285714px;
+  left: 0;
+  -webkit-mask-image: url(images/bundled/e64296b34b1cc3e534943feabb2f16d7.png);
+  mask-image: url(images/bundled/e64296b34b1cc3e534943feabb2f16d7.png);
+  -webkit-mask-size: 36px 29.14285714px;
+  mask-size: 36px 29.14285714px;
+  -webkit-mask-position: center top;
+  mask-position: center top;
+  background-position: 0 0;
+}
+.profile .stats:after,
+.profile .stats:before {
+  content: "";
+  position: absolute;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.blob1 {
+  content: "";
+  position: relative;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  width: 263px;
+  height: 177px;
+  background: #460fc8;
+  -webkit-mask-image: url(images/bundled/30a391a4e4c11c61efecaf94f3f09dca.svg);
+  mask-image: url(images/bundled/30a391a4e4c11c61efecaf94f3f09dca.svg);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  top: -90px;
+  margin-bottom: -180px;
+  z-index: 3;
+}
+.profile .stats-main {
+  padding: 10px 8px 0;
+}
+.profile .stats-main ul {
+  zoom: 1;
+}
+.profile .stats-main ul:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+}
+.profile .stats-main li {
+  float: left;
+}
+.profile .icon {
+  margin-right: 8px;
+  line-height: 0;
+}
+.profile .icon img {
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+}
+.profile .name {
+  position: relative;
+  font-size: 20px;
+  z-index: 1;
+}
+@media screen and (max-width: 320px) {
+  .profile .name {
+    font-size: 17px;
+    margin-top: 4px;
+  }
+}
+.profile .rank-badge {
+  font-family: Splatoon1, sans-serif;
+  font-size: 30px;
+}
+.profile .rank-badge .udemae {
+  position: absolute;
+  display: block;
+  width: 126px;
+  height: 126px;
+  background: rgba(0, 0, 0, 0.8);
+  -webkit-mask-image: url(images/bundled/97bed10b1efcf3fccacd59cc88740b2e.svg);
+  mask-image: url(images/bundled/97bed10b1efcf3fccacd59cc88740b2e.svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 3px 0 0 8px;
+  margin: -50px 0 0 -10px;
+  z-index: 0;
+}
+@media screen and (max-width: 320px) {
+  .profile .rank-badge .udemae {
+    margin-left: -20px;
+  }
+}
+.profile .stats-detail {
+  position: relative;
+  background: rgba(0, 0, 0, 0.65);
+  border-radius: 16px;
+  padding: 6px 10px 12px;
+  margin: 10px 8px 14px;
+  z-index: 1;
+}
+.profile table {
+  width: 100%;
+  color: #fff;
+}
+.profile th {
+  vertical-align: bottom;
+  font-size: 11px;
+  border-bottom: 2px dotted hsla(0, 0%, 100%, 0.4);
+  text-align: left;
+  line-height: 1;
+  padding-bottom: 5px;
+}
+.profile th.level {
+  width: 40px;
+  white-space: nowrap;
+}
+.profile tbody tr:first-child td {
+  padding-top: 6px;
+}
+.profile td {
+  line-height: 1;
+}
+.profile td.challenge,
+.profile td.level {
+  vertical-align: top;
+}
+.profile td.level {
+  white-space: nowrap;
+}
+.profile td.level strong {
+  display: block;
+  font-family: Splatoon1, sans-serif;
+  font-size: 21px;
+  padding-bottom: 3px;
+}
+.profile td.level.win {
+  color: #cdf523;
+}
+.profile td.rank {
+  white-space: nowrap;
+}
+.profile td.rank strong {
+  font-size: 12px;
+}
+@media screen and (max-width: 320px) {
+  .profile td.rank strong {
+    font-size: 10px;
+  }
+}
+.profile td.rank .udemae {
+  font-size: 17px;
+  padding-left: 8px;
+  margin-right: 10px;
+  font-family: Splatoon1, sans-serif;
+}
+.profile td.challenge .point {
+  font-size: 18px;
+}
+.profile td.challenge .class {
+  position: relative;
+  padding: 12px 14px;
+  margin: 2px -12px 0 -8px;
+  font-size: 13px;
+  text-align: center;
+  line-height: 1.2;
+}
+.profile td.challenge .class:before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: url(images/bundled/fc2fe88fcaa2d9817a7012044948bfaf.png);
+  background-size: 94.5px 94.5px;
+  -webkit-mask-image: url(images/bundled/f788ab76e5447b15944387ac1fbe19bc.png);
+  mask-image: url(images/bundled/f788ab76e5447b15944387ac1fbe19bc.png);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center;
+  mask-position: center;
+  z-index: -1;
+}
+@media screen and (max-width: 320px) {
+  .profile td.challenge .class {
+    font-size: 12px;
+  }
+}
+.profile .favorite-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0 0 32px 32px;
+  /* border-top: 1px solid rgba(0, 0, 0, 0.2); */
+  /* min-height: 32px; */
+  flex-flow: wrap;
+  padding-bottom: 5px;
+}
+img.hero-weapon-image,
+img.icon-image {
+  pointer-events: none;
+}
+.rank-badge.gold {
+  background-image: url(images/bundled/688ffacf4393061287571751fe4556be.png);
+}
+.rank-badge.silver {
+  background-image: url(images/bundled/fc3e249ea2c0df7a87a1fe9758f95aa9.png);
+}
+.rank-badge.bronze {
+  background-image: url(images/bundled/97ed6ad3b55c9df9adfc5207e0daf305.png);
+}
+.bronze,
+.gold,
+.silver {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-right: 4px;
+}
+.gold::after {
+  background-position: center;
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 34px;
+  background-image: url(images/bundled/3a55655cdacd6027cb8e559df5b0e1f8.png);
+}
+.silver::after {
+  background-position: center;
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 34px;
+  background-image: url(images/bundled/31d659dfdfb16897755cc845d54e5a2e.png);
+}
+.bronze::after {
+  background-position: center;
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 34px;
+  background-image: url(images/bundled/c279bbea3ba44b2668c12c201f9f7792.png);
+}
+.blob3 {
+  position: absolute;
+  content: "";
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #f02d7d;
+  width: 293px;
+  height: 216px;
+  right: 180px;
+  bottom: 655px;
+  -webkit-mask-image: url(images/bundled/ed3ce989cf7dfbed48333d0e3247288f.svg);
+  mask-image: url(images/bundled/ed3ce989cf7dfbed48333d0e3247288f.svg);
+  z-index: 0;
+}
+.blob4 {
+  position: absolute;
+  content: "";
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #19e650;
+  width: 93px;
+  height: 316px;
+  right: 380px;
+  -webkit-mask-image: url(images/bundled/ed3ce989cf7dfbed48333d0e3247288f.svg);
+  mask-image: url(images/bundled/ed3ce989cf7dfbed48333d0e3247288f.svg);
+  z-index: 0;
+}

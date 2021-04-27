@@ -3,23 +3,22 @@ package datahandling
 import (
 	"encoding/json"
 	"io/ioutil"
-	"time"
 )
 
 func GetOrFetchData() (Results, error) {
 	results, err := getResults()
-	if err != nil || time.Now().Sub(results.Date) > 5*time.Minute {
-		league, err := GetLeague()
-		if err != nil {
-			return results, err
-		}
-		results = CalculateResults(league)
-		err = saveResults(results)
-		if err != nil {
-			return results, err
-		}
-	}
-	return results, nil
+	// if err != nil || time.Now().Sub(results.Date) > 5*time.Minute {
+	// 	league, err := GetLeague()
+	// 	if err != nil {
+	// 		return results, err
+	// 	}
+	// 	results = CalculateResults(league)
+	// 	err = saveResults(results)
+	// 	if err != nil {
+	// 		return results, err
+	// 	}
+	// }
+	return results, err
 }
 
 func getResults() (results Results, err error) {

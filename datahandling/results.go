@@ -1,18 +1,22 @@
 package datahandling
 
 import (
+	"fmt"
+	"math"
 	"sort"
 	"strconv"
 	"time"
 )
 
 var (
-	titles         = []string{"Profreshional", "Fresh", "Raw", "Dry"}
-	stagesBySector = []int{4, 7, 7, 7, 7}
-	stages         = 32
-	NO_TIME        = uint(9999)
-	BEST_WEAPON    = 9
-	stage_ids      = map[string]int{
+	titles           = []string{"Profreshional", "Fresh", "Raw", "Dry"}
+	stagesBySector   = []int{4, 7, 7, 7, 7}
+	stageIDsBySector = [][]int{{0, 1, 2, 3}, {4, 5, 6, 7, 8, 9, 10}, {11, 12, 13, 14, 15, 16, 17}, {18, 19, 20, 21, 22, 23, 24}, {25, 26, 27, 28, 29, 30, 31}}
+	weaponNames      = []string{"Hero Shot", "Hero Roller", "Hero Charger", "Hero Dualies", "Hero Slosher", "Hero Splatling", "Hero Blaster", "Hero Brella", "Herobrush"}
+	stages           = 32
+	NO_TIME          = uint(9999)
+	BEST_WEAPON      = 9
+	stage_ids        = map[string]int{
 		"1":   0,
 		"2":   1,
 		"3":   2,
@@ -49,9 +53,10 @@ var (
 )
 
 type Results struct {
-	LeagueName    string         `json:"league_name"`
-	Date          time.Time      `json:"time"`
-	PlayerResults []PlayerResult `json:"player_result"`
+	LeagueName     string         `json:"league_name"`
+	Date           time.Time      `json:"time"`
+	PlayerResults  []PlayerResult `json:"player_result"`
+	StagesBySector [][]int        `json:"stages_by_sector"`
 }
 
 //9 Is the overall
@@ -60,7 +65,9 @@ type PlayerResult struct {
 	PlayerImage     string         `json:"player_image"`
 	PlayerHonor     string         `json:"player_honor"`
 	PlayerTitle     string         `json:"player_title"`
-	PlayerClearRate float64        `json:"player_clear_rate"`
+	PlayerClearRate string         `json:"player_clear_rate"`
+	BestWeapon      string         `json:"best_weapon"`
+	WorstWeapon     string         `json:"worst_weapon"`
 	TotalScores     ScoreSummary   `json:"total_score"`
 	SectorScores    []ScoreSummary `json:"sector_scores"`
 	StageScores     []ScoreSummary `json:"stage_scores"`
@@ -107,7 +114,8 @@ func collectPlayerData(contestant Contestant) (playerResult PlayerResult) {
 	playerResult.PlayerImage = contestant.PictureURL
 	playerResult.PlayerHonor = contestant.SplatnetData.SplatnetCampaignSummary.SplatnetHonor.Name
 	playerResult.PlayerName = contestant.SplatnetName
-	playerResult.PlayerClearRate = contestant.SplatnetData.SplatnetCampaignSummary.ClearRate
+	clearPrecentage := int(math.Round(contestant.SplatnetData.SplatnetCampaignSummary.ClearRate * 100))
+	playerResult.PlayerClearRate = fmt.Sprintf("%d%%", clearPrecentage)
 	playerResult.StageScores = make([]ScoreSummary, stages)
 
 	for stageIndex := 0; stageIndex < stages; stageIndex++ {
@@ -223,6 +231,7 @@ func calculateTotalResults(results *Results) {
 			for weaponID := 0; weaponID <= BEST_WEAPON; weaponID++ {
 				totalScore.ScoreByWeapon[weaponID].Weapon = weaponID
 				totalScore.ScoreByWeapon[weaponID].PlayerScore += results.PlayerResults[playerIndex].StageScores[stageIndex].ScoreByWeapon[weaponID].PlayerScore
+				totalScore.ScoreByWeapon[weaponID].PlayerTime += results.PlayerResults[playerIndex].StageScores[stageIndex].ScoreByWeapon[weaponID].PlayerTime
 			}
 
 		}
@@ -247,10 +256,44 @@ func calculateTotalResults(results *Results) {
 			totalScorePointers[playerIndex].ScoreByWeapon[weaponID].PlayerRanking = rank
 		}
 	}
+	// Best and worst weapon
+	for i := range results.PlayerResults {
+		best := results.PlayerResults[i].TotalScores.ScoreByWeapon[0].PlayerTime
+		bestID := 0
+		worst := results.PlayerResults[i].TotalScores.ScoreByWeapon[0].PlayerTime
+		worstID := 0
+		for weaponID := 0; weaponID < BEST_WEAPON; weaponID++ {
+			time := results.PlayerResults[i].TotalScores.ScoreByWeapon[weaponID].PlayerTime
+			if time < best {
+				best = time
+				bestID = weaponID
+			}
+			if time > worst {
+				worst = time
+				worstID = weaponID
+			}
+		}
+		results.PlayerResults[i].BestWeapon = weaponNames[bestID]
+		results.PlayerResults[i].WorstWeapon = weaponNames[worstID]
+	}
+	// Rank titles
+	for i := range results.PlayerResults {
+		rank := results.PlayerResults[i].TotalScores.ScoreByWeapon[9].PlayerRanking
+		titleindex := min(rank, len(titles)) - 1
+		results.PlayerResults[i].PlayerTitle = titles[titleindex]
+	}
+}
+
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
 }
 
 func CalculateResults(league League) (results Results) {
 	results.LeagueName = league.LeagueName
+	results.StagesBySector = stageIDsBySector
 	for _, contestant := range league.Contestants {
 		results.PlayerResults = append(results.PlayerResults, collectPlayerData(contestant))
 	}

@@ -175,6 +175,10 @@ func loadSplatnetData(league *League) error {
 				return err
 			}
 			league.Contestants[index].Cookie = newCookie
+			err = saveLeague(*league)
+			if err != nil {
+				return err
+			}
 			return loadSplatnetData(league)
 		}
 		league.Contestants[index].SplatnetName = profiles.SplatnetProfiles[0].Name
