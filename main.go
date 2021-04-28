@@ -47,7 +47,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 	} else {
-		body, _ := ioutil.ReadFile("web/index.gohtml")
+		body, _ := ioutil.ReadFile("web/index.html")
 		fmt.Fprintf(w, "%s", body)
 	}
 }

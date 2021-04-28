@@ -9,7 +9,14 @@ import (
 func GetOrFetchData() (Results, error) {
 	results, err := getResults()
 	if err != nil || time.Now().Sub(results.Date) > 5*time.Minute {
-		league, err := GetLeague()
+		var league League
+		for attempts := 0; attempts < 5; attempts++ {
+			league, err = GetLeague()
+			if err == nil {
+				break
+			}
+			time.Sleep(2 * time.Second)
+		}
 		if err != nil {
 			return results, err
 		}
