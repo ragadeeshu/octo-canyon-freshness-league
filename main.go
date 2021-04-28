@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"text/template"
 
 	"github.com/ragadeeshu/octo-canyon-freshness-league/datahandling"
@@ -56,5 +57,11 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./web/static"))
 	http.HandleFunc("/", handler)
 	http.Handle("/static/", http.StripPrefix("/static", fileServer))
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	var port string
+	if len(os.Args) > 1 {
+		port = os.Args[1]
+	} else {
+		port = "8080"
+	}
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
