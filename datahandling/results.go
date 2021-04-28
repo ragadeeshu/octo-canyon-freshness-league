@@ -16,7 +16,7 @@ var (
 	stages           = 32
 	NO_TIME          = uint(9999)
 	BEST_WEAPON      = 9
-	stage_ids        = map[string]int{
+	stageIDs         = map[string]int{
 		"1":   0,
 		"2":   1,
 		"3":   2,
@@ -50,6 +50,7 @@ var (
 		"27":  30,
 		"105": 31,
 	}
+	stageIDList = []int{1, 2, 3, 101, 4, 5, 6, 7, 8, 9, 102, 10, 11, 12, 13, 14, 15, 103, 16, 17, 18, 19, 20, 21, 104, 22, 23, 24, 25, 26, 27, 105}
 )
 
 type Results struct {
@@ -57,6 +58,7 @@ type Results struct {
 	Date           time.Time      `json:"time"`
 	PlayerResults  []PlayerResult `json:"player_result"`
 	StagesBySector [][]int        `json:"stages_by_sector"`
+	StageIDList    []int
 }
 
 //9 Is the overall
@@ -91,15 +93,18 @@ func collectWeaponTimes(stage SplatnetStageClearData) (summary ScoreSummary) {
 	}
 	for weaponID := 0; weaponID < BEST_WEAPON; weaponID++ {
 		var time uint
+		var weapon int
 		spatnetWeapon, found := stage.ClearWeapons[strconv.Itoa(weaponID)]
 		if !found {
 			time = NO_TIME
+			weapon = BEST_WEAPON
 		} else {
 			time = spatnetWeapon.ClearTime
+			weapon = weaponID
 		}
 		weaponScore := WeaponScore{
 			PlayerTime: time,
-			Weapon:     weaponID,
+			Weapon:     weapon,
 		}
 		if time < best.PlayerTime {
 			best = weaponScore
@@ -123,14 +128,14 @@ func collectPlayerData(contestant Contestant) (playerResult PlayerResult) {
 		for weaponID := 0; weaponID <= BEST_WEAPON; weaponID++ {
 			noWeaponData := WeaponScore{
 				PlayerTime: NO_TIME,
-				Weapon:     weaponID,
+				Weapon:     BEST_WEAPON,
 			}
 			emptyScore.ScoreByWeapon = append(emptyScore.ScoreByWeapon, noWeaponData)
 		}
 		playerResult.StageScores[stageIndex] = emptyScore
 	}
 	for _, stage := range contestant.SplatnetData.SplatnetStageClearDatas {
-		playerResult.StageScores[stage_ids[stage.SplatnetStage.ID]] = collectWeaponTimes(stage)
+		playerResult.StageScores[stageIDs[stage.SplatnetStage.ID]] = collectWeaponTimes(stage)
 	}
 	return
 }
@@ -294,6 +299,7 @@ func min(x, y int) int {
 func CalculateResults(league League) (results Results) {
 	results.LeagueName = league.LeagueName
 	results.StagesBySector = stageIDsBySector
+	results.StageIDList = stageIDList
 	for _, contestant := range league.Contestants {
 		results.PlayerResults = append(results.PlayerResults, collectPlayerData(contestant))
 	}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>Octo canyon freshness league</title>
+    <link rel="icon" type="image/png" href="static/images/bundled/133988d7223deb6634fc30bf8cac034c.png">
+    <style>
+        #loader {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #cover {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            transition: opacity 1s;
+            -webkit-transition: opacity 1s;
+            z-index: 5;
+            opacity: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cover">
+        <img id="loader" src="static/images/bundled/50732dded088309dfb8f436f3885e782.png">
+    </div>
+    <div id="wrapper">
+    </div>
+    <script>
+        function showWeapon(evt, weaponID) {
+            var i, weaponTab, tablinks;
+            weaponTab = document.getElementsByClassName("weaponTab");
+            for (i = 0; i < weaponTab.length; i++) {
+                weaponTab[i].style.display = "none";
+            }
+
+            tablinks = document.getElementsByClassName("complete");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace("selecting", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(weaponID).style.display = "block";
+            evt.currentTarget.className += " selecting";
+        }
+    </script>
+    <script>
+        var head = document.getElementsByTagName("head")[0],
+            cssLink = document.createElement("link");
+        cssLink.href = "static/css.css";
+        cssLink.id = "dynamic-css";
+        cssLink.media = "screen";
+        cssLink.type = "text/css";
+        cssLink.rel = "stylesheet";
+        head.appendChild(cssLink);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("wrapper").innerHTML = this.responseText
+                var script = document.createElement('script');
+                script.src = "https://buttons.github.io/buttons.js";
+                document.head.appendChild(script);
+                document.getElementById("cover").style.opacity = '0'
+            }
+        };
+        xhttp.open("GET", "league", true);
+        xhttp.send();
+    </script>
+</body>
+
+</html>
