@@ -557,7 +557,7 @@ button {
 }
 .profile.color3 .bg1,
 .profile.color3 .bg1-before:before {
-  background-color: #cdf523;
+  background-color: #FF6C00;
   -webkit-transform: rotate(-1.4deg);
   transform: rotate(-1.4deg);
   will-change: transform;
@@ -581,6 +581,34 @@ button {
   background-color: #ffcd00;
   -webkit-transform: rotate(-4.8deg);
   transform: rotate(-4.8deg);
+  will-change: transform;
+}
+.profile.color7 .bg1,
+.profile.color7 .bg1-before:before {
+  background-color: #2D9314;
+  -webkit-transform: rotate(3.4deg);
+  transform: rotate(3.4deg);
+  will-change: transform;
+}
+.profile.color8 .bg1,
+.profile.color8 .bg1-before:before {
+  background-color: #0DA182;
+  -webkit-transform: rotate(-2.1deg);
+  transform: rotate(-2.1deg);
+  will-change: transform;
+}
+.profile.color9 .bg1,
+.profile.color9 .bg1-before:before {
+  background-color: #941A88;
+  -webkit-transform: rotate(1.8deg);
+  transform: rotate(1.8deg);
+  will-change: transform;
+}
+.profile.color10 .bg1,
+.profile.color10 .bg1-before:before {
+  background-color: #228CFF;
+  -webkit-transform: rotate(-3.8deg);
+  transform: rotate(-3.8deg);
   will-change: transform;
 }
 .profile .stats {
