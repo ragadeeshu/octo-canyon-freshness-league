@@ -87,7 +87,7 @@ type SplatnetHonor struct {
 	Name string `json:"name"`
 }
 
-func GetLeague() (League, error) {
+func getLeague() (League, error) {
 	league, err := loadLeague()
 	if err != nil {
 		return league, err

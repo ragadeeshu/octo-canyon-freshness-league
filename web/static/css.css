@@ -835,23 +835,12 @@ button {
   justify-content: center;
   overflow: hidden;
   border-radius: 0 0 32px 32px;
-  /* border-top: 1px solid rgba(0, 0, 0, 0.2); */
-  /* min-height: 32px; */
   flex-flow: wrap;
   padding-bottom: 5px;
 }
 img.hero-weapon-image,
 img.icon-image {
   pointer-events: none;
-}
-.rank-badge.gold {
-  background-image: url(images/bundled/688ffacf4393061287571751fe4556be.png);
-}
-.rank-badge.silver {
-  background-image: url(images/bundled/fc3e249ea2c0df7a87a1fe9758f95aa9.png);
-}
-.rank-badge.bronze {
-  background-image: url(images/bundled/97ed6ad3b55c9df9adfc5207e0daf305.png);
 }
 .bronze,
 .gold,

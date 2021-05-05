@@ -12,7 +12,7 @@ var (
 	titles           = []string{"Profreshional", "Fresh", "Raw", "Dry"}
 	stagesBySector   = []int{4, 7, 7, 7, 7}
 	stageIDsBySector = [][]int{{0, 1, 2, 3}, {4, 5, 6, 7, 8, 9, 10}, {11, 12, 13, 14, 15, 16, 17}, {18, 19, 20, 21, 22, 23, 24}, {25, 26, 27, 28, 29, 30, 31}}
-	weaponNames      = []string{"Hero Shot", "Hero Roller", "Hero Charger", "Hero Dualies", "Hero Slosher", "Hero Splatling", "Hero Blaster", "Hero Brella", "Herobrush"}
+	weaponNames      = []string{"Hero Shot", "Hero Roller", "Hero Charger", "Hero Dualies", "Hero Brella", "Hero Splatling", "Hero Blaster", "Hero Slosher", "Herobrush"}
 	stages           = 32
 	NO_TIME          = uint(9999)
 	BEST_WEAPON      = 9

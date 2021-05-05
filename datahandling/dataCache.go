@@ -11,7 +11,7 @@ func GetOrFetchData() (Results, error) {
 	if err != nil || time.Now().Sub(results.Date) > 5*time.Minute {
 		var league League
 		for attempts := 0; attempts < 5; attempts++ {
-			league, err = GetLeague()
+			league, err = getLeague()
 			if err == nil {
 				break
 			}
