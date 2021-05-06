@@ -15,7 +15,7 @@ func GetOrFetchData() (Results, error) {
 			if err == nil {
 				break
 			}
-			time.Sleep(2 * time.Second)
+			time.Sleep(60 * time.Second)
 		}
 		if err != nil {
 			return results, err

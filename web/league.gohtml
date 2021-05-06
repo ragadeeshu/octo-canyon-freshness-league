@@ -157,83 +157,85 @@
                 </div>
             </div>
         </div>
-        {{ $stagesBySector := .StagesBySector }}
-        {{range $focusWeapon, $throwaway := (index .PlayerResults 1).TotalScores.ScoreByWeapon}}
-        <div class="weaponTab" id="{{$focusWeapon}}" {{if not (eq $focusWeapon 9)}}style="display:none"{{end}}>
-            {{range $sectorNumber, $sectorStages := $stagesBySector}}
-            <section class="area">
-                <table>
-                    <tr class="header"><th class="sector">Sector {{indexfunc $sectorNumber}}</th>
-                        {{range $playerIndex, $result := $playerResults}}
-                        <th class="player">{{$result.PlayerName}}</th>
-                        {{end}}
-                    </tr>
-                    {{range $stageNumber, $stageIndex := $sectorStages}}
-                    <tr>
-                        <td>
-                            {{ $stageID :=index $league.StageIDList $stageIndex }}
-                            <span class="stage {{if (gt $stageID 100)}}boss{{else}}normal{{end}}">
-                                {{$stageID | printf "%02d"}}
-                            </span>
-                        </td>
-                        {{range $playerIndex, $result := $playerResults}}
-                        <td>
-                            <span class="time-record {{if eq (index (index $result.StageScores $stageIndex).ScoreByWeapon $focusWeapon).PlayerRanking 1}}win{{end}}">
-                                {{$time := (index (index $result.StageScores $stageIndex).ScoreByWeapon $focusWeapon).PlayerTime}}
-                                {{if eq $time 9999}}
-                                    {{"&nbsp;&nbsp;&nbsp;∞&nbsp;&nbsp;&nbsp;"}}
-                                {{else}}
-                                    {{timedisplay $time}}
-                                {{end}}
-                            </span>
-                            {{$weapon := (index (index $result.StageScores $stageIndex).ScoreByWeapon $focusWeapon).Weapon}}
-                            <span class="weapon"></span>
-                            {{if eq $weapon 0}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/4a960b39af09f312926d11ccabd9dd1504066872.png"
-                                    alt="0">
-                            {{else if eq $weapon 1}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/340fa4755c9bae65026cc98c86b92e71edabaf2a.png"
-                                    alt="1">
-                            {{else if eq $weapon 2}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/b51bc11dd7973e91316435c67ff88f264f8dd4d4.png"
-                                    alt="2">
-                            {{else if eq $weapon 3}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/bd8f778b51dd3234845e9f51404a75b7a40fc9a9.png"
-                                    alt="3">
-                            {{else if eq $weapon 4}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/1b22f2c5776658ee092af81cc9d6bd56b3d39a4d.png"
-                                    alt="4">
-                            {{else if eq $weapon 5}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/ffc1d85ab488ebf9fcfa07d4adf0673bba36c698.png"
-                                    alt="5">
-                            {{else if eq $weapon 6}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/d1a26c62b39763fa7636486250185710a5f59b92.png"
-                                    alt="6">
-                            {{else if eq $weapon 7}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/cb6d801f791e35cd6bab85d8f855fc707693a97e.png"
-                                    alt="7">
-                            {{else if eq $weapon 8}}
-                            <img class="hero-weapon-image" src="static/images/weapon_shadow/99ee0b0ea354be02580ac34e13fba18a6f4c2528.png"
-                                    alt="8">
-                            {{else}}
-                            <strong>?</strong>
+        <div id="weaponWrapper">
+            {{ $stagesBySector := .StagesBySector }}
+            {{range $focusWeapon, $throwaway := (index .PlayerResults 0).TotalScores.ScoreByWeapon}}
+            <div class="weaponTab" id="{{$focusWeapon}}" {{if not (eq $focusWeapon 9)}}style="display:none"{{end}}>
+                {{range $sectorNumber, $sectorStages := $stagesBySector}}
+                <section class="area">
+                    <table>
+                        <tr class="header"><th class="sector">Sector {{indexfunc $sectorNumber}}</th>
+                            {{range $playerIndex, $result := $playerResults}}
+                            <th class="player">{{$result.PlayerName}}</th>
                             {{end}}
-                            </span>
-                        </td>
+                        </tr>
+                        {{range $stageNumber, $stageIndex := $sectorStages}}
+                        <tr>
+                            <td class="stage-label">
+                                {{ $stageID :=index $league.StageIDList $stageIndex }}
+                                <span class="stage {{if (gt $stageID 100)}}boss{{else}}normal{{end}}">
+                                    {{$stageID | printf "%02d"}}
+                                </span>
+                            </td>
+                            {{range $playerIndex, $result := $playerResults}}
+                            <td>
+                                <span class="time-record {{if eq (index (index $result.StageScores $stageIndex).ScoreByWeapon $focusWeapon).PlayerRanking 1}}win{{end}}">
+                                    {{$time := (index (index $result.StageScores $stageIndex).ScoreByWeapon $focusWeapon).PlayerTime}}
+                                    {{if eq $time 9999}}
+                                        {{"&nbsp;&nbsp;&nbsp;∞&nbsp;&nbsp;&nbsp;"}}
+                                    {{else}}
+                                        {{timedisplay $time}}
+                                    {{end}}
+                                </span>
+                                {{$weapon := (index (index $result.StageScores $stageIndex).ScoreByWeapon $focusWeapon).Weapon}}
+                                <span class="weapon"></span>
+                                {{if eq $weapon 0}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/4a960b39af09f312926d11ccabd9dd1504066872.png"
+                                        alt="0">
+                                {{else if eq $weapon 1}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/340fa4755c9bae65026cc98c86b92e71edabaf2a.png"
+                                        alt="1">
+                                {{else if eq $weapon 2}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/b51bc11dd7973e91316435c67ff88f264f8dd4d4.png"
+                                        alt="2">
+                                {{else if eq $weapon 3}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/bd8f778b51dd3234845e9f51404a75b7a40fc9a9.png"
+                                        alt="3">
+                                {{else if eq $weapon 4}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/1b22f2c5776658ee092af81cc9d6bd56b3d39a4d.png"
+                                        alt="4">
+                                {{else if eq $weapon 5}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/ffc1d85ab488ebf9fcfa07d4adf0673bba36c698.png"
+                                        alt="5">
+                                {{else if eq $weapon 6}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/d1a26c62b39763fa7636486250185710a5f59b92.png"
+                                        alt="6">
+                                {{else if eq $weapon 7}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/cb6d801f791e35cd6bab85d8f855fc707693a97e.png"
+                                        alt="7">
+                                {{else if eq $weapon 8}}
+                                <img class="hero-weapon-image" src="static/images/weapon_shadow/99ee0b0ea354be02580ac34e13fba18a6f4c2528.png"
+                                        alt="8">
+                                {{else}}
+                                <strong>?</strong>
+                                {{end}}
+                                </span>
+                            </td>
+                            {{end}}
+                        </tr>
                         {{end}}
-                    </tr>
-                    {{end}}
-                    <tr class="header"
-                    ><th class="sector">Score</th>
-                    {{range $playerIndex, $result := $playerResults}}
-                        <th class="player {{if eq (index (index $result.SectorScores $sectorNumber).ScoreByWeapon $focusWeapon).PlayerRanking 1}}win{{end}}">{{(index (index $result.SectorScores $sectorNumber).ScoreByWeapon $focusWeapon).PlayerScore}}p</th>
-                        {{end}}
-                    </tr>
-                </table>
-            </section>
+                        <tr class="header"
+                        ><th class="sector">Score</th>
+                        {{range $playerIndex, $result := $playerResults}}
+                            <th class="player {{if eq (index (index $result.SectorScores $sectorNumber).ScoreByWeapon $focusWeapon).PlayerRanking 1}}win{{end}}">{{(index (index $result.SectorScores $sectorNumber).ScoreByWeapon $focusWeapon).PlayerScore}}p</th>
+                            {{end}}
+                        </tr>
+                    </table>
+                </section>
+                {{end}}
+            </div>
             {{end}}
         </div>
-        {{end}}
         <div class="challenge-start-container">
             <div class="challenge-start">
                 <h3>
