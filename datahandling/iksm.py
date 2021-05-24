@@ -309,5 +309,5 @@ def enter_cookie():
 	return new_cookie
 
 if __name__ == "__main__":
-	cookie = get_cookie(sys.argv[1], "en-US", "1.5.8")
+	cookie = get_cookie(sys.argv[1], "en-US", "1.5.11")
 	print(cookie[1], end='')
