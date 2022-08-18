@@ -5,10 +5,30 @@ from builtins import input
 import requests, json, re, sys
 import os, base64, hashlib
 import uuid, time, random, string
+from bs4 import BeautifulSoup
 
 session = requests.Session()
 version = "unknown"
+nsoapp_version = "2.2.0"
 
+# structure:
+# log_in() -> get_session_token()
+# get_cookie() -> call_flapg_api() -> get_hash_from_s2s_api()
+# enter_cookie()
+# get_nsoapp_version()
+
+def get_nsoapp_version():
+	'''Fetches the current Nintendo Switch Online app version from the Apple App Store.'''
+
+	global nsoapp_version
+	try:
+		page = requests.get("https://apps.apple.com/us/app/nintendo-switch-online/id1234806557")
+		soup = BeautifulSoup(page.text, 'html.parser')
+		elt = soup.find("p", {"class": "whats-new__latest__version"})
+		ver = elt.get_text().replace("Version ","").strip()
+		return ver
+	except:
+		return nsoapp_version
 
 def log_in(ver):
 	'''Logs in to a Nintendo Account and returns a session_token.'''
@@ -28,7 +48,7 @@ def log_in(ver):
 		'Connection':                'keep-alive',
 		'Cache-Control':             'max-age=0',
 		'Upgrade-Insecure-Requests': '1',
-		'User-Agent':                'Mozilla/5.0 (Linux; Android 7.1.2; Pixel Build/NJH47D; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36',
+		'User-Agent':                'Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Mobile Safari/537.36',
 		'Accept':                    'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8n',
 		'DNT':                       '1',
 		'Accept-Encoding':           'gzip,deflate,br',
@@ -74,8 +94,10 @@ def log_in(ver):
 def get_session_token(session_token_code, auth_code_verifier):
 	'''Helper function for log_in().'''
 
+	nsoapp_version = get_nsoapp_version()
+
 	app_head = {
-		'User-Agent':      'OnlineLounge/1.11.0 NASDKAPI Android',
+		'User-Agent':      'OnlineLounge/' + nsoapp_version + ' NASDKAPI Android',
 		'Accept-Language': 'en-US',
 		'Accept':          'application/json',
 		'Content-Type':    'application/x-www-form-urlencoded',
@@ -99,6 +121,8 @@ def get_session_token(session_token_code, auth_code_verifier):
 def get_cookie(session_token, userLang, ver):
 	'''Returns a new cookie provided the session_token.'''
 
+	nsoapp_version = get_nsoapp_version()
+
 	global version
 	version = ver
 
@@ -113,7 +137,7 @@ def get_cookie(session_token, userLang, ver):
 		'Content-Length':  '439',
 		'Accept':          'application/json',
 		'Connection':      'Keep-Alive',
-		'User-Agent':      'OnlineLounge/1.11.0 NASDKAPI Android'
+		'User-Agent':      'OnlineLounge/' + nsoapp_version + ' NASDKAPI Android'
 	}
 
 	body = {
@@ -130,7 +154,7 @@ def get_cookie(session_token, userLang, ver):
 	# get user info
 	try:
 		app_head = {
-			'User-Agent':      'OnlineLounge/1.11.0 NASDKAPI Android',
+			'User-Agent':      'OnlineLounge/' + nsoapp_version + ' NASDKAPI Android',
 			'Accept-Language': userLang,
 			'Accept':          'application/json',
 			'Authorization':   'Bearer {}'.format(id_response["access_token"]),
@@ -154,9 +178,9 @@ def get_cookie(session_token, userLang, ver):
 	app_head = {
 		'Host':             'api-lp1.znc.srv.nintendo.net',
 		'Accept-Language':  userLang,
-		'User-Agent':       'com.nintendo.znca/1.11.0 (Android/7.1.2)',
+		'User-Agent':       'com.nintendo.znca/' + nsoapp_version + ' (Android/7.1.2)',
 		'Accept':           'application/json',
-		'X-ProductVersion': '1.11.0',
+		'X-ProductVersion': nsoapp_version,
 		'Content-Type':     'application/json; charset=utf-8',
 		'Connection':       'Keep-Alive',
 		'Authorization':    'Bearer',
@@ -206,9 +230,9 @@ def get_cookie(session_token, userLang, ver):
 	try:
 		app_head = {
 			'Host':             'api-lp1.znc.srv.nintendo.net',
-			'User-Agent':       'com.nintendo.znca/1.11.0 (Android/7.1.2)',
+			'User-Agent':       'com.nintendo.znca/' + nsoapp_version + ' (Android/7.1.2)',
 			'Accept':           'application/json',
-			'X-ProductVersion': '1.11.0',
+			'X-ProductVersion': nsoapp_version,
 			'Content-Type':     'application/json; charset=utf-8',
 			'Connection':       'Keep-Alive',
 			'Authorization':    'Bearer {}'.format(splatoon_token["result"]["webApiServerCredential"]["accessToken"]),
@@ -248,7 +272,7 @@ def get_cookie(session_token, userLang, ver):
 			'X-IsAnalyticsOptedIn':    'false',
 			'Connection':              'keep-alive',
 			'DNT':                     '0',
-			'User-Agent':              'Mozilla/5.0 (Linux; Android 7.1.2; Pixel Build/NJH47D; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36',
+			'User-Agent':              'Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Mobile Safari/537.36',
 			'X-Requested-With':        'com.nintendo.znca'
 		}
 	except:
@@ -309,5 +333,5 @@ def enter_cookie():
 	return new_cookie
 
 if __name__ == "__main__":
-	cookie = get_cookie(sys.argv[1], "en-US", "1.5.11")
+	cookie = get_cookie(sys.argv[1], "en-US", "1.7.3")
 	print(cookie[1], end='')

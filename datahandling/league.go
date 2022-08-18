@@ -99,12 +99,12 @@ type SplatnetHonor struct {
 	Name string `json:"name"`
 }
 
-func getLeague() (League, error) {
+func getLeague(iksmMutex *sync.Mutex) (League, error) {
 	league, err := loadLeague()
 	if err != nil {
 		return league, err
 	}
-	err = loadSplatnetData(&league)
+	err = loadSplatnetData(&league, iksmMutex)
 	if err != nil {
 		//save whatever progress we made
 		saveLeague(league)
@@ -115,6 +115,22 @@ func getLeague() (League, error) {
 		return league, err
 	}
 	return league, nil
+}
+
+func getSingleContestant(iksmMutex *sync.Mutex, index int) (int, error) {
+	league, err := loadLeague()
+	if err != nil {
+		return index, err
+	}
+	index, err = loadSplatnetDataForSingleContestant(&league, iksmMutex, index)
+	if err != nil {
+		//save whatever progress we made
+		saveLeague(league)
+		return index, err
+	}
+	err = saveLeague(league)
+	return index, err
+
 }
 
 func loadLeague() (league League, err error) {
@@ -135,16 +151,16 @@ func saveLeague(league League) (err error) {
 	return
 }
 
-func loadSplatnetData(league *League) error {
+func loadSplatnetData(league *League, mu *sync.Mutex) error {
 	errors := make(chan error, len(league.Contestants))
 	var wg sync.WaitGroup
-	var mu sync.Mutex
+
 	client := http.Client{
 		Timeout: 2 * time.Second,
 	}
 	for index := range league.Contestants {
 		wg.Add(1)
-		go fetchSplatnetData(&wg, &mu, index, &client, league, errors)
+		go fetchSplatnetData(&wg, mu, index, &client, league, errors)
 	}
 	// Wait for finish
 	wg.Wait()
@@ -153,6 +169,27 @@ func loadSplatnetData(league *League) error {
 		return err
 	default:
 		return nil
+	}
+}
+
+func loadSplatnetDataForSingleContestant(league *League, mu *sync.Mutex, index int) (int, error) {
+	errors := make(chan error, len(league.Contestants))
+	var wg sync.WaitGroup
+
+	client := http.Client{
+		Timeout: 2 * time.Second,
+	}
+	wg.Add(1)
+	go fetchSplatnetData(&wg, mu, index, &client, league, errors)
+	// Wait for finish
+	wg.Wait()
+	index += 1
+	index %= len(league.Contestants)
+	select {
+	case err := <-errors:
+		return index, err
+	default:
+		return index, nil
 	}
 }
 

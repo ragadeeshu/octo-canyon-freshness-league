@@ -3,20 +3,16 @@ package datahandling
 import (
 	"encoding/json"
 	"io/ioutil"
+	"sync"
 	"time"
 )
 
-func GetOrFetchData() (Results, error) {
+func GetOrFetchData(iksmMutex *sync.Mutex) (Results, error) {
 	results, err := getResults()
 	if err != nil || time.Now().Sub(results.Date) > 5*time.Minute {
 		var league League
-		for attempts := 0; attempts < 5; attempts++ {
-			league, err = getLeague()
-			if err == nil {
-				break
-			}
-			time.Sleep(60 * time.Second)
-		}
+
+		league, err = getLeague(iksmMutex)
 		if err != nil {
 			return results, err
 		}
@@ -27,6 +23,11 @@ func GetOrFetchData() (Results, error) {
 		}
 	}
 	return results, err
+}
+
+func FetchContestant(iksmMutex *sync.Mutex, index int) (int, error) {
+	index, err := getSingleContestant(iksmMutex, index)
+	return index, err
 }
 
 func getResults() (results Results, err error) {

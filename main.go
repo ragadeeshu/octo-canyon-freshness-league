@@ -4,12 +4,17 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"sync"
 	"text/template"
+	"time"
 
 	"github.com/ragadeeshu/octo-canyon-freshness-league/datahandling"
 )
+
+var iksmMutex sync.Mutex
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" && r.URL.Path != "/league" {
@@ -23,7 +28,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.URL.Path == "/league" {
-		results, err := datahandling.GetOrFetchData()
+		results, err := datahandling.GetOrFetchData(&iksmMutex)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -54,6 +59,20 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	go func() {
+		log.Println("Starting idle poller")
+		index := 0
+		for {
+			var err error
+			fmt.Println("fetching index ", index)
+			index, err = datahandling.FetchContestant(&iksmMutex, index)
+			if err != nil {
+				fmt.Println(err)
+			}
+			time.Sleep(time.Hour*8 + time.Minute*time.Duration(rand.Intn(60)))
+		}
+	}()
+
 	fileServer := http.FileServer(http.Dir("./web/static"))
 	http.HandleFunc("/", handler)
 	http.Handle("/static/", http.StripPrefix("/static", fileServer))
